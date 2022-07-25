@@ -2,7 +2,12 @@
 {% block content %}
 {% for quiz in quizs %}
 <p align="center">
-    {{ quiz.question }}
+    <b>{{ quiz.question }}</b>
+    <form align="center" action="" method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit" value="OK">
+  </form>
 </p>
 
   {% endfor %}
