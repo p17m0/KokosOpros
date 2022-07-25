@@ -1,14 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
 {% for quiz in quizs %}
-<p align="center">
+<p>
     <b>{{ quiz.question }}</b>
-    <form align="center" action="" method="post">
-      {% csrf_token %}
-      {{ form }}
-      <input type="submit" value="OK">
+
+</p>
+<p>
+  <form>
+  <div>
+  <ol>
+    <li>
+      <input id="answer" type="radio" name="answer_field">
+      <label for="answer">{{ quiz.answer }}</label>
+    </li>
+    <li>
+      <input id="answer" type="radio" name="answer_field">
+      <label for="answer">{{ quiz.wrong_answer_1 }}</label>
+    </li>
+    <li>
+      <input id="answer" type="radio" name="answer_field">
+      <label for="answer">{{ quiz.wrong_answer_2 }}</label>
+    </li>
+    <li>
+      <input id="answer" type="radio" name="answer_field">
+      <label for="answer">{{ quiz.wrong_answer_3 }}</label>
+    </li>
+  </ol>
+  </div>
   </form>
 </p>
-
-  {% endfor %}
+{% endfor %}
+<form align="center" action="" method="post">
+  {% csrf_token %}
+  <input type="submit" value="OK">
+</form>
 {% endblock content %}

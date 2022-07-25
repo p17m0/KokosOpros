@@ -20,6 +20,9 @@ class Quiz(models.Model):
 class Question(models.Model):
     question = models.CharField(max_length=120)
     answer = models.CharField(max_length=120)
-
+    wrong_answer_1 = models.CharField(max_length=120)
+    wrong_answer_2 = models.CharField(max_length=120)
+    wrong_answer_3 = models.CharField(max_length=120)
+    
     def __str__(self):
         return self.question
