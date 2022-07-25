@@ -1,0 +1,32 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'quiz:index' %}">
+        <img src="{% static 'img/chat-icon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:rgb(0, 255, 247)">Qu</span>iz
+      </a>
+      {# Добавлено в спринте #}
+
+      {% comment %}
+      Меню - список пунктов со стандартными классами Bootsrap.
+      Класс nav-pills нужен для выделения активных пунктов
+      {% endcomment %}
+      {% if user.is_authenticated %}
+          <p align="center">Пользователь: {{ user.username }}</p>
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'users:login' %}">Войти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'users:signup' %}">Регистрация</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+</header>
