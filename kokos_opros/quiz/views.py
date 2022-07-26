@@ -52,6 +52,6 @@ def quizs(request, id):
 def index(request):
     quizs = Quiz.objects.all()
     context = {
-        'page_obj': quizs,
+        'page_obj': pagina(request, quizs),
     }
     return render(request, 'quiz/index.html', context)

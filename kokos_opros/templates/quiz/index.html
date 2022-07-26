@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% for quiz in page_obj %}
-<div class="container py-5">
+
   <aside class="col-12 col-md-3">
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
@@ -11,7 +11,6 @@
       </li>
     </ul>
   </aside>
-</div>
 {% endfor %}
 {% include 'includes/paginator.html' %}
 {% endblock content %}
