@@ -17,6 +17,9 @@
           <p> Баллы: {{ user.golden_coins }}</p>
       <ul class="nav nav-pills">
         <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'users:profile' %}">Профиль</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
         </li>
         {% else %}

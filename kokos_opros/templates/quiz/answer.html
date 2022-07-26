@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<p>
+    <b>Вопрос: {{ question }}</b>
+</p>
+<div>
+  <p>
+    <form action="" method="post">
+    
+    <ol>
+    {% for answer in answers %}
+        <li>{{ answer }}</li>
+    {% endfor %}
+    </ol>
+  </p>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><input type="submit" value="OK" ></p>
+  </form>
+</div>
+{% endblock content %}

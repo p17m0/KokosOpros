@@ -1,37 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-{% for quiz in quizs %}
+<p align="center">Кoличество вопросов: {{ count }}</p>
+{% for question in questions %}
 <p>
-    <b>{{ quiz.question }}</b>
-
-</p>
-<p>
-  <form>
-  <div>
-  <ol>
-    <li>
-      <input id="answer" type="radio" name="answer_field">
-      <label for="answer">{{ quiz.answer }}</label>
-    </li>
-    <li>
-      <input id="answer" type="radio" name="answer_field">
-      <label for="answer">{{ quiz.wrong_answer_1 }}</label>
-    </li>
-    <li>
-      <input id="answer" type="radio" name="answer_field">
-      <label for="answer">{{ quiz.wrong_answer_2 }}</label>
-    </li>
-    <li>
-      <input id="answer" type="radio" name="answer_field">
-      <label for="answer">{{ quiz.wrong_answer_3 }}</label>
-    </li>
-  </ol>
-  </div>
-  </form>
+  Вопрос: <a href="{% url 'quiz:answer' id question.id %}"><b>{{ question }}</b></a>
 </p>
 {% endfor %}
-<form align="center" action="" method="post">
-  {% csrf_token %}
-  <input type="submit" value="OK">
-</form>
 {% endblock content %}

@@ -1,4 +1,9 @@
+from ast import Num
 from django.db import models
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
+User = get_user_model()
 
 
 class Quiz(models.Model):
@@ -19,10 +24,17 @@ class Quiz(models.Model):
 
 class Question(models.Model):
     question = models.CharField(max_length=120)
-    answer = models.CharField(max_length=120)
-    wrong_answer_1 = models.CharField(max_length=120)
-    wrong_answer_2 = models.CharField(max_length=120)
-    wrong_answer_3 = models.CharField(max_length=120)
-    
+    answers = models.ManyToManyField('Answer',
+                                     related_name='answers')
+    num_of_right_answer = models.IntegerField()
+
     def __str__(self):
         return self.question
+
+
+class Answer(models.Model):
+    answer = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.answer
+
