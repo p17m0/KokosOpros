@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-{% for quiz in quizs %}
-  <ul>
-    <li>
-      <a href="{% url 'quiz:quizs' quiz.id %}">
-        {{ quiz.name }}
-        
-      </a>
-    </li>
-  </ul>
-  {% endfor %}
+{% for quiz in page_obj %}
+<div class="container py-5">
+  <aside class="col-12 col-md-3">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <a href="{% url 'quiz:quizs' quiz.id %}">
+          Тест: {{ quiz.name }}
+        </a>
+      </li>
+    </ul>
+  </aside>
+</div>
+{% endfor %}
+{% include 'includes/paginator.html' %}
 {% endblock content %}

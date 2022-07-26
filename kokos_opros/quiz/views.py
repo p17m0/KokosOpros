@@ -1,6 +1,14 @@
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from .forms import *
+
+
+def pagina(request, qui):
+    paginator = Paginator(qui, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return page_obj
 
 
 def answer(request, id, id_q):
@@ -20,10 +28,10 @@ def answer(request, id, id_q):
                 user.save()
                 return redirect('quiz:quizs', id=id)
             return redirect('quiz:quizs', id=id)
-       
+
     context = {
         'question': question,
-        'answers': answers,
+        'answers': pagina(request, answers),
         'form': form,
     }
     return render(request, 'quiz/answer.html', context)
@@ -35,7 +43,7 @@ def quizs(request, id):
     count = len(questions)
     context = {
         'count': count,
-        'questions': questions,
+        'page_obj': pagina(request, questions),
         'id': id,
     }
     return render(request, 'quiz/quizs.html', context)
@@ -44,6 +52,6 @@ def quizs(request, id):
 def index(request):
     quizs = Quiz.objects.all()
     context = {
-        'quizs': quizs,
+        'page_obj': quizs,
     }
     return render(request, 'quiz/index.html', context)

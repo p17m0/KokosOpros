@@ -4,18 +4,17 @@
     <div class="container">
       <a class="navbar-brand" href="{% url 'quiz:index' %}">
         <img src="{% static 'img/chat-icon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span style="color:rgb(0, 255, 247)">Qu</span>iz
+        <span style="color:rgb(0, 255, 247)">Qu</span><span style="color: white;">iz</span>
       </a>
-      {# Добавлено в спринте #}
-
-      {% comment %}
-      Меню - список пунктов со стандартными классами Bootsrap.
-      Класс nav-pills нужен для выделения активных пунктов
-      {% endcomment %}
       {% if user.is_authenticated %}
-          <p align="center">Пользователь: {{ user.username }}</p>
-          <p> Баллы: {{ user.golden_coins }}</p>
+
       <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'users:profile' %}">{{ user.username | title }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light" href="{% url 'users:profile' %}">Монетки: {{ user.golden_coins }}</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link link-light" href="{% url 'users:profile' %}">Профиль</a>
         </li>

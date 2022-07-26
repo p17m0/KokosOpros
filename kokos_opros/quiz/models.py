@@ -1,7 +1,7 @@
 from ast import Num
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
+from django.core.validators import MaxLengthValidator
 
 User = get_user_model()
 
@@ -25,7 +25,7 @@ class Quiz(models.Model):
 class Question(models.Model):
     question = models.CharField(max_length=120)
     answers = models.ManyToManyField('Answer',
-                                     related_name='answers')
+                                     related_name='answers',)
     num_of_right_answer = models.IntegerField()
 
     def __str__(self):

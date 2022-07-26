@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 <p align="center">Кoличество вопросов: {{ count }}</p>
-{% for question in questions %}
+{% for question in page_obj %}
 <p>
   Вопрос: <a href="{% url 'quiz:answer' id question.id %}"><b>{{ question }}</b></a>
 </p>
 {% endfor %}
+{% include 'includes/paginator.html' %}
 {% endblock content %}
