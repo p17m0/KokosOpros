@@ -6,3 +6,4 @@ from django.db.models import IntegerField
 class User(AbstractUser):
     golden_coins = IntegerField(default=0)
     done_tests = IntegerField(default=0)
+    

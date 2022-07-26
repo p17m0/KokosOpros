@@ -7,6 +7,9 @@ User = get_user_model()
 
 
 class Quiz(models.Model):
+    """
+    Модель Теста.
+    """
     DIFFICULT = [
         ('HARD', 'Hard'),
         ('NORMAL', 'Normal'),
@@ -23,6 +26,9 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
+    """
+    Модель вопроса.
+    """
     question = models.CharField(max_length=120)
     answers = models.ManyToManyField('Answer',
                                      related_name='answers',)
@@ -33,6 +39,9 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
+    """
+    Модель вопроса.
+    """
     answer = models.CharField(max_length=120)
 
     def __str__(self):

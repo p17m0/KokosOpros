@@ -5,6 +5,9 @@ from .forms import *
 
 
 def pagina(request, qui):
+    """
+    Пагинация.
+    """
     paginator = Paginator(qui, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -12,6 +15,9 @@ def pagina(request, qui):
 
 
 def answer(request, id, id_q):
+    """
+    Отображение формы ответа, вопроса и вариантов ответа.
+    """
     quiz = get_object_or_404(Quiz, pk=id)
     question = quiz.questions.get(id=id_q)
     answers = question.answers.all()
@@ -31,16 +37,25 @@ def answer(request, id, id_q):
 
     context = {
         'question': question,
-        'answers': pagina(request, answers),
+        'answers': answers,
         'form': form,
     }
     return render(request, 'quiz/answer.html', context)
 
 
+# def start_quiz(request, id, count):
+#     for i in range(1, count+1):
+#         answer(request, id, i)
+
+
 def quizs(request, id):
+    """
+    Для отображения всех вопросов.
+    """
     quiz = get_object_or_404(Quiz, pk=id)
     questions = quiz.questions.all()
     count = len(questions)
+    # start = start_quiz(request, id, count)
     context = {
         'count': count,
         'page_obj': pagina(request, questions),
@@ -50,6 +65,9 @@ def quizs(request, id):
 
 
 def index(request):
+    """
+    Главнаця страница. Отображение всех Quiz.
+    """
     quizs = Quiz.objects.all()
     context = {
         'page_obj': pagina(request, quizs),
