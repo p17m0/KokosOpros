@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for user in users %}
+<div class="container py-5">
+  <aside class="col-12 col-md-3">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+          <button style="text-align: center; 
+                        position: relative; 
+                        background-color:rgb(224, 242, 243); 
+                        border-color:rgb(255, 255, 255); 
+                        color:white; 
+                        height:200px;
+                        width:200px;">
+                Пользователь:   <p style="color: {{ user.color }};">
+                                 {{ user }}
+                                </p>
+                Монеты пользователя: {{ user.golden_coins }}
+                <p style="color: {{ user.color }};">
+                    Цвет никнейма пользователя {{ user.color }}
+                </p>
+          </button>
+
+        </a>
+      </li>
+    </ul>
+  </aside>
+</div>
+{% endfor %}
+
+{% endblock content %}

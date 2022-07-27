@@ -1,9 +1,16 @@
+from multiprocessing import context
 from django.views.generic import CreateView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
+
+from quiz.models import DoneQuiz
 
 from .forms import CreationForm
 from .service import hex_code_colors
+
+
+User = get_user_model()
 
 
 class SignUp(CreateView):
@@ -27,3 +34,10 @@ def buycolor(request):
         user.golden_coins -= 5
         user.save()
     return redirect('users:profile')
+
+
+def list_of_users(request):
+    users = User.objects.all()
+    DoneQuiz
+    context = {'users': users,}
+    return render(request, 'users/list_users.html', context)

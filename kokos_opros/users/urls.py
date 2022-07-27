@@ -18,4 +18,5 @@ urlpatterns = [
         name='login'
     ),
     path('profile/', profile, name='profile'),
-    path('profile/buycolor/', buycolor, name='buycolor')]
+    path('profile/buycolor/', buycolor, name='buycolor'),
+    path('list_users/', list_of_users, name='list')]
