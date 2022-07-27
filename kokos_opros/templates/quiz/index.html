@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 {% for quiz in page_obj %}
-
+<div class="container py-5">
   <aside class="col-12 col-md-3">
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
-        
         <a href="{% url 'quiz:quizs' quiz.id %}">
-          <button style="background-color:rgb(0, 234, 255); border-color:rgb(15, 15, 117); color:white">
+          <button style="text-align: center; 
+                        position: relative; 
+                        background-color:rgb(0, 234, 255); 
+                        border-color:rgb(15, 15, 117); 
+                        color:white; 
+                        height:100px;
+                        width:150px;">
             Тест: {{ quiz.name }}
           </button>
         </a>
       </li>
     </ul>
   </aside>
+</div>
 {% endfor %}
 {% include 'includes/paginator.html' %}
 {% endblock content %}
