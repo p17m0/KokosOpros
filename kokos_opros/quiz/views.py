@@ -20,11 +20,9 @@ def answer(request, id, id_q):
     """
     quiz = get_object_or_404(Quiz, pk=id)
     question = quiz.questions.get(id=id_q)
-
-    all_questions = quiz.questions.all()
     answers = question.answers.all()
 
-    last_i_question = len(all_questions)  # index of the las question in the quiz
+    last_question = quiz.questions.last()  # index of the last question in the quiz
     right_answer = question.num_of_right_answer
     
     form = QuestionForm
@@ -32,16 +30,16 @@ def answer(request, id, id_q):
         form = QuestionForm(request.POST)
         if form.is_valid():
             answer = int(form.cleaned_data['num_of_answer'])
-            print(answer == right_answer)
+            print(question.id, "LOL", last_question.id)
             if answer == right_answer:
                 user = request.user
                 user.golden_coins += 1
                 user.save()
-                if id_q != last_i_question:
+                if question.id != last_question.id:
                     return redirect('quiz:answer', id=id, id_q=id_q+1)
                 else:
                     return redirect('quiz:index')
-            if id_q != last_i_question:
+            if question.id != last_question.id:
                 return redirect('quiz:answer', id=id, id_q=id_q+1)
             else:
                 return redirect('quiz:index')
@@ -54,9 +52,13 @@ def answer(request, id, id_q):
     return render(request, 'quiz/answer.html', context)
 
 
-def start_quiz(request, id, count):
-    for i in range(1, count+1):
-        return redirect('quiz:answer', id, i)
+def start_quiz(request, id):
+    """
+    Запускает тест.
+    """
+    quiz = get_object_or_404(Quiz, pk=id)
+    question = quiz.questions.first()
+    return redirect('quiz:answer', id, question.id)
 
 
 def quizs(request, id):
