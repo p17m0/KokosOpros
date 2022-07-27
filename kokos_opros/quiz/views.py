@@ -79,9 +79,11 @@ def quizs(request, id):
 
 
 def done_quizs(request):
+    """
+    Страница выполненных тестов.
+    """
     donequizs = DoneQuiz.objects.filter(user=request.user).values('quiz_id')
-    ids = [i['quiz_id'] for i in donequizs]
-    quizs = Quiz.objects.filter(id__in=ids)
+    quizs = Quiz.objects.filter(id__in=donequizs)
     context = {
         'page_obj': pagina(request, quizs),
     }
