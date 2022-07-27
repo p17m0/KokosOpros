@@ -47,3 +47,14 @@ class Answer(models.Model):
     def __str__(self):
         return self.answer
 
+
+class DoneQuiz(models.Model):
+    """
+    Модель пройденный тестов пользоателем.
+    """
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             related_name='userdonequizs')
+    quiz = models.ForeignKey(Quiz,
+                             on_delete=models.CASCADE,
+                             related_name='donequizs')
