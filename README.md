@@ -5,4 +5,26 @@
 ## Описание проекта
 
 KokosOpros - начальный макет для динамического создания тестов.
-__ТЕСТОВОЕ_ЗАДАНИЕ_ДЛЯ_KOKOS_GROUP
+-
+ТЕСТОВОЕ_ЗАДАНИЕ_ДЛЯ_KOKOS_GROUP
+
+### Запуск проекта в dev-режиме
+- Установите и активируйте виртуальное окружение
+```
+python3 -m venv venv
+```
+- Установите зависимости из файла requirements.txt
+```
+pip install -r requirements.txt
+``` 
+- В папке с файлом manage.py выполните команду: (GIT BASH: cd /path)
+```
+python3 manage.py migrate
+```
+- Запустите сервер
+```
+python3 manage.py runserver
+```
+
+### Автор
+p17m0
