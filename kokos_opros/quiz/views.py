@@ -20,8 +20,13 @@ def answer(request, id, id_q):
     """
     quiz = get_object_or_404(Quiz, pk=id)
     question = quiz.questions.get(id=id_q)
+
+    all_questions = quiz.questions.all()
     answers = question.answers.all()
+
+    last_i_question = len(all_questions)  # index of the las question in the quiz
     right_answer = question.num_of_right_answer
+    
     form = QuestionForm
     if request.method == "POST":
         form = QuestionForm(request.POST)
@@ -32,8 +37,14 @@ def answer(request, id, id_q):
                 user = request.user
                 user.golden_coins += 1
                 user.save()
-                return redirect('quiz:quizs', id=id)
-            return redirect('quiz:quizs', id=id)
+                if id_q != last_i_question:
+                    return redirect('quiz:answer', id=id, id_q=id_q+1)
+                else:
+                    return redirect('quiz:index')
+            if id_q != last_i_question:
+                return redirect('quiz:answer', id=id, id_q=id_q+1)
+            else:
+                return redirect('quiz:index')
 
     context = {
         'question': question,
@@ -43,9 +54,9 @@ def answer(request, id, id_q):
     return render(request, 'quiz/answer.html', context)
 
 
-# def start_quiz(request, id, count):
-#     for i in range(1, count+1):
-#         answer(request, id, i)
+def start_quiz(request, id, count):
+    for i in range(1, count+1):
+        return redirect('quiz:answer', id, i)
 
 
 def quizs(request, id):
@@ -55,7 +66,6 @@ def quizs(request, id):
     quiz = get_object_or_404(Quiz, pk=id)
     questions = quiz.questions.all()
     count = len(questions)
-    # start = start_quiz(request, id, count)
     context = {
         'count': count,
         'page_obj': pagina(request, questions),
