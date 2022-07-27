@@ -1,5 +1,5 @@
 from django.views.generic import CreateView
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 
 from .forms import CreationForm
@@ -15,7 +15,15 @@ class SignUp(CreateView):
 
 def profile(request):
     user = request.user
-    color = hex_code_colors()
-    context = {'user': user,
-               'color': color}
+    context = {'user': user}
     return render(request, 'users/profile.html', context)
+
+
+def buycolor(request):
+    user = request.user
+    if user.golden_coins > 0 or user.golden_coins <= 5:
+        color = hex_code_colors()
+        user.color = color
+        user.golden_coins -= 5
+        user.save()
+    return redirect('users:profile')

@@ -10,7 +10,7 @@
 
       <ul class="nav nav-pills">
         <li class="nav-item">
-          <a class="nav-link link-light" href="{% url 'users:profile' %}">{{ user.username | title }}</a>
+          <a class="nav-link link-light" href="">{{ user.username | title }}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link link-light" href="{% url 'quiz:index' %}">Тесты</a>
@@ -19,7 +19,7 @@
           <a class="nav-link link-light" href="{% url 'quiz:done_quizs' %}">Пройденные тесты</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link link-light" href="{% url 'users:profile' %}">Монетки: {{ user.golden_coins }}</a>
+          <a class="nav-link link-light" href="">Монетки: {{ user.golden_coins }}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link link-light" href="{% url 'users:profile' %}">Профиль</a>

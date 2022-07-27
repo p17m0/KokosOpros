@@ -93,8 +93,7 @@ def index(request):
     Главная страница. Отображение всех непройденных Quiz.
     """
     donequizs = DoneQuiz.objects.filter(user=request.user).values('quiz_id')
-    ids = [i['quiz_id'] for i in donequizs]
-    quizs = Quiz.objects.exclude(id__in=ids)
+    quizs = Quiz.objects.exclude(id__in=donequizs)
     context = {
         'page_obj': pagina(request, quizs),
     }

@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <p align="center">Кoличество вопросов: {{ count }}</p>
+Вопросы теста:
 {% for question in page_obj %}
 <p>
-  Вопрос: <a href="{% url 'quiz:answer' id question.id %}"><b>{{ question }}</b></a>
+  Вопрос: <b>{{ question }}</b>
 </p>
 {% endfor %}
-<a href="{% url 'quiz:start' id %}">start</a>
+<a href="{% url 'quiz:start' id %}">
+  <button style="background-color:rgb(0, 255, 34); border-color:rgb(15, 117, 54); color:white">
+    Начать 
+  </button>
+</a>
 {% include 'includes/paginator.html' %}
 {% endblock content %}

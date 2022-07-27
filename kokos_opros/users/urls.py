@@ -16,5 +16,6 @@ urlpatterns = [
         'login/',
         LoginView.as_view(template_name='users/login.html'),
         name='login'
-    ), 
-    path('profile/', profile, name='profile')]
+    ),
+    path('profile/', profile, name='profile'),
+    path('profile/buycolor/', buycolor, name='buycolor')]

@@ -9,9 +9,15 @@
       </div>
       <div class="card-body">
         <body>
+          <p style="color: {{ user.color }};">
           {{ user.username }}
+          </p>
         </body>
-        <a href=""><input type="submit" value="Сменить цвет профиля и никнейм разом"></a>
+        {% if user.golden_coins > 0 %}
+          <a href="{% url 'users:buycolor' %}"><input type="submit" value="Сменить цвет никнейма за 10 монеток"></a>
+        {% else %}
+          <a href=""><input type="submit" value="У вас не хватает монет для смены цвета :("></a>
+        {% endif %}
       </div>
     </div>
   </div> 
