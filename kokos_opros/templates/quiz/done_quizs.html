@@ -8,6 +8,15 @@
           <button style="background-color:rgb(0, 234, 255); border-color:rgb(15, 15, 117); color:white">
             Тест: {{ donequiz.name }}
           </button>
+          {% if donequiz.done %}
+          <button style="background-color:rgb(0, 234, 255); border-color:rgb(15, 15, 117); color:white">
+            Пройден
+          </button>
+          {% else %}
+          <button style="background-color:rgb(0, 234, 255); border-color:rgb(15, 15, 117); color:white">
+            Не пройден
+          </button>
+          {% endif %}
       </li>
     </ul>
   </aside>

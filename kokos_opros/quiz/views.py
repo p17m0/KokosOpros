@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
@@ -14,6 +15,7 @@ def pagina(request, qui):
     return page_obj
 
 
+@login_required
 def answer(request, id, id_q):
     """
     Отображение формы ответа, вопроса и вариантов ответа.
@@ -31,20 +33,23 @@ def answer(request, id, id_q):
             answer = int(form.cleaned_data['num_of_answer'])
             if answer == right_answer:
                 user = request.user
-                user.golden_coins += 1
+                user.right_answers += 1
                 user.save()
-                if question.id == last_question.id:
-                    DoneQuiz.objects.create(user=request.user,
-                                            quiz=quiz)
-                    return redirect('quiz:index')
-                else:
-                    return redirect('quiz:answer', id=id, id_q=id_q+1)
+
             if question.id == last_question.id:
-                DoneQuiz.objects.create(user=request.user,
-                                        quiz=quiz)
+                if user.right_answers == quiz.min_right_answers:
+                    user.golden_coins += quiz.difficult
+                    DoneQuiz.objects.create(user=request.user,
+                                            quiz=quiz,
+                                            done=True)
+                else:
+                    DoneQuiz.objects.create(user=request.user,
+                                            quiz=quiz,
+                                            done=False)
+                user.right_answers = 0
+                user.save()
                 return redirect('quiz:index')
-            else:
-                return redirect('quiz:answer', id=id, id_q=id_q+1)
+            return redirect('quiz:answer', id=id, id_q=id_q+1)
 
     context = {
         'question': question,
@@ -54,6 +59,7 @@ def answer(request, id, id_q):
     return render(request, 'quiz/answer.html', context)
 
 
+@login_required
 def start_quiz(request, id):
     """
     Запускает тест.
@@ -63,6 +69,7 @@ def start_quiz(request, id):
     return redirect('quiz:answer', id, question.id)
 
 
+@login_required
 def quizs(request, id):
     """
     Для отображения всех вопросов.
@@ -78,18 +85,20 @@ def quizs(request, id):
     return render(request, 'quiz/quizs.html', context)
 
 
+@login_required
 def done_quizs(request):
     """
-    Страница выполненных тестов.
+    Страница выполненных тестов. И итога - пройден или нет.
     """
-    donequizs = DoneQuiz.objects.filter(user=request.user).values('quiz_id')
-    quizs = Quiz.objects.filter(id__in=donequizs)
+    quizs = request.user.userdonequizs.all()
+    print(quizs)
     context = {
         'page_obj': pagina(request, quizs),
     }
     return render(request, 'quiz/done_quizs.html', context)
 
 
+@login_required
 def index(request):
     """
     Главная страница. Отображение всех непройденных Quiz.

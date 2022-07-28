@@ -1,7 +1,7 @@
-from ast import Num
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.core.validators import MaxLengthValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 User = get_user_model()
 
@@ -11,15 +11,17 @@ class Quiz(models.Model):
     Модель Теста.
     """
     DIFFICULT = [
-        ('HARD', 'Hard'),
-        ('NORMAL', 'Normal'),
-        ('SIMPLE', 'Simple'),
+        (20, 'Сложный'),
+        (15, 'Нормальный'),
+        (10, 'Простой'),
     ]
     name = models.CharField(max_length=40)
     questions = models.ManyToManyField('Question',
                                        related_name='questions')
-    min_right = models.IntegerField()
-    difficult = models.CharField(max_length=10, choices=DIFFICULT)
+    min_right_answers = models.IntegerField(
+        verbose_name='Минимальное количество ответов для прохождение теста',
+    )
+    difficult = models.IntegerField(default=0, choices=DIFFICULT)
 
     def __str__(self):
         return self.name
@@ -31,8 +33,12 @@ class Question(models.Model):
     """
     question = models.CharField(max_length=120)
     answers = models.ManyToManyField('Answer',
-                                     related_name='answers',)
-    num_of_right_answer = models.IntegerField()
+                                     related_name='answers',
+                                     through='AnswerAmount')
+    num_of_right_answer = models.IntegerField(
+        verbose_name='Номер правильного ответа:',
+        validators=(MinValueValidator(1),
+                    MaxValueValidator(4)))
 
     def __str__(self):
         return self.question
@@ -48,6 +54,24 @@ class Answer(models.Model):
         return self.answer
 
 
+class AnswerAmount(models.Model):
+    """
+    Количество ответов.
+    """
+    question = models.ForeignKey(
+        Question,
+        on_delete=models.CASCADE,
+        related_name='amounts',
+        verbose_name='Вопрос'
+    )
+    answer = models.ForeignKey(
+        Answer,
+        on_delete=models.CASCADE,
+        related_name='amounts',
+        verbose_name='Ответ'
+    )
+
+
 class DoneQuiz(models.Model):
     """
     Модель пройденный тестов пользоателем.
@@ -58,3 +82,4 @@ class DoneQuiz(models.Model):
     quiz = models.ForeignKey(Quiz,
                              on_delete=models.CASCADE,
                              related_name='donequizs')
+    done = models.BooleanField()
